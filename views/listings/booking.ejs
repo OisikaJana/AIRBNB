@@ -1,0 +1,129 @@
+<% if(currUser && !listing.owner._id.equals(currUser._id)){ %>
+    <div class="col-8 offset-3 mb-3">
+      <hr />
+    
+      <h4>Book Room</h4>
+      <form
+        action="/listings/<%=listing._id%>/booking"
+        method="post"
+        class="mb-3 mt-3 needs-validation"
+        novalidate
+      >
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="totalGuests">Total Guests</label>
+          <input
+            type="number"
+            class="form-control"
+            id="totalGuests"
+            name="booking[totalGuests]"
+            required
+          />
+          <div class="invalid-feedback">
+            Please enter the total number of guests.
+          </div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="phone">Phone Number</label>
+          <input
+            type="number"
+            class="form-control"
+            id="phone"
+            name="booking[phone]"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid phone number.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="checkInDate">Check-in Date</label>
+          <input
+            type="date"
+            class="form-control"
+            id="checkInDate"
+            name="booking[checkInDate]"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid check-in date.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="checkOutDate">Check-out Date</label>
+          <input
+            type="date"
+            class="form-control"
+            id="checkOutDate"
+            name="booking[checkOutDate]"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid check-out date.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="numNights">Number of Nights</label>
+          <input
+            type="number"
+            class="form-control"
+            id="numNights"
+            name="booking[numNights]"
+          />
+          <div class="invalid-feedback">Please enter a valid number of nights.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label class="form-label" for="totalCost">Total Cost</label>
+          <input
+            type="number"
+            class="form-control"
+            id="totalCost"
+            name="booking[totalCost]"
+          />
+        </div>
+        <div class="form-check mb-3 mt-3">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="payAtResidence"
+            name="booking[payAtResidence]"
+            required
+          />
+          <label class="form-check-label" for="payAtResidence"
+            >Pay at Residence</label
+          >
+        </div>
+        <button class="btn btn-dark offset-5 edit-btn">Book now</button>
+      </form>
+      <% } %>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const checkInDate = document.getElementById('checkInDate');
+        const checkOutDate = document.getElementById('checkOutDate');
+        const numNights = document.getElementById('numNights');
+        const totalCost = document.getElementById('totalCost');
+        const payAtResidence = document.getElementById('payAtResidence');
+        const bookButton = document.getElementById('bookButton');
+    
+        checkInDate.addEventListener('change', updateTotalCost);
+        checkOutDate.addEventListener('change', updateTotalCost);
+        numNights.addEventListener('input', updateTotalCost);
+        payAtResidence.addEventListener('change', updateBookButton);
+    
+        function updateTotalCost() {
+          const pricePerNight = <%= listing.price %>;
+          const checkIn = new Date(checkInDate.value);
+          const checkOut = new Date(checkOutDate.value);
+          const nights = (checkOut - checkIn) / (1000 * 60 * 60 * 24);
+          const total = pricePerNight * nights;
+          numNights.value = nights;
+          totalCost.value = total;
+    
+          // Update book button state
+          updateBookButton();
+        }
+    
+        function updateBookButton() {
+          if (payAtResidence.checked) {
+            bookButton.disabled = false;
+          } else {
+            bookButton.disabled = true;
+          }
+        }
+      });
+    </script>
+    
