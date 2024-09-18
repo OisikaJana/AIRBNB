@@ -19,3 +19,4 @@ MongoDB: Make sure MongoDB is running locally, as your code connects to a MongoD
 
 2. Start MongoDB:
 Ensure that MongoDB is running on your local machine. If you have MongoDB installed, you can start it by running:
+"mongod"
