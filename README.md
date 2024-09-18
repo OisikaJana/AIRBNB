@@ -8,10 +8,14 @@ MongoDB: Make sure MongoDB is running locally, as your code connects to a MongoD
 # Steps to Run the Application
 
 1. Install Node.js Dependencies:
-
  Navigate to the project directory in your terminal or command prompt.
+
 *Run the following command to install all necessary packages listed in your code :
 "npm install express mongoose method-override ejs-mate express-session connect-flash passport passport-local"
+
 *You might also need to install ejs, passport-local-mongoose, or any other package that isn't explicitly mentioned but required  
  by your project:
  "npm install ejs passport-local-mongoose"
+
+2. Start MongoDB:
+Ensure that MongoDB is running on your local machine. If you have MongoDB installed, you can start it by running:
